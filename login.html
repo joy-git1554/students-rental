@@ -12,13 +12,14 @@
     <header class="site-header">
         <div class="container">
             <div class="brand">Students Rentals</div>
-            <nav class="nav"><a href="index.html">Home</a><a href="properties.html">Properties</a><a
+            <button id="navToggle" class="nav-toggle" aria-label="Toggle menu">☰</button>
+            <nav id="mainNav" class="nav"><a href="index.html">Home</a><a href="properties.html">Properties</a><a
                     href="secondhand.html">Second Hand Items</a><a href="about.html">About Us</a><a
                     href="contacts.html">Contacts</a></nav>
         </div>
     </header>
-    <main class="container" style="padding:20px;display:flex;align-items:center;justify-content:center;min-height:60vh">
-        <form id="loginForm" style="background:#fff;padding:18px;border-radius:10px;min-width:320px">
+    <main class="container page-login">
+        <form id="loginForm" class="login-form">
             <h2>Login</h2>
             <label>Username<input name="username" required
                     style="width:100%;padding:8px;margin-top:6px;border-radius:6px;border:1px solid #e6eef6"></label>
@@ -29,15 +30,13 @@
                 </select></label>
             <label style="display:block;margin-top:8px">Password<input name="password" type="password" required
                     style="width:100%;padding:8px;margin-top:6px;border-radius:6px;border:1px solid #e6eef6"></label>
-            <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end"><button type="submit"
-                    class="btn">Login</button></div>
+            <div class="form-actions"><button type="submit" class="btn">Login</button></div>
         </form>
     </main>
     <footer class="site-footer">
         <div class="container">© <span id="year"></span> Students Rentals</div>
     </footer>
     <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
         const form = document.getElementById('loginForm');
         function getNextRedirect() {
             try { const params = new URLSearchParams(location.search); return params.get('next') || 'index.html'; } catch (e) { return 'index.html'; }
