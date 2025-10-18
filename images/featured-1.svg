@@ -1,14 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
-  <rect width="100%" height="100%" fill="#e6f7ff"/>
-  <g fill="#0b5f8a">
-    <rect x="60" y="220" width="200" height="150" rx="8"/>
-    <rect x="280" y="180" width="240" height="190" rx="8"/>
-    <rect x="540" y="240" width="160" height="130" rx="8"/>
-  </g>
-  <g fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="700">
-    <text x="50" y="80">Featured Property</text>
-  </g>
-  <g fill="#0b5f8a" font-family="Arial, Helvetica, sans-serif" font-size="20">
-    <text x="70" y="400">3 bed • 2 bath • Central</text>
-  </g>
-</svg>
+<!-- REMOVED: featured-1.svg contents replaced per user request -->
