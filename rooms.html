@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Rooms - Students Rentals</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="auth.js"></script>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="brand">Book a rental for yourself here</div>
+            <nav class="nav"><a href="index.html">Home</a><a href="rooms.html" class="active">Rooms</a><a
+                    href="secondhand.html">Second Hand Items</a><a href="about.html">About Us</a><a
+                    href="contacts.html">Contacts</a></nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding:20px">
+        <h1>Available Rentals</h1>
+        <div id="paidNotice" style="background:#fff3c4;padding:10px;border-radius:6px;max-width:600px">Students must pay
+            KSh 100 to view listings.</div>
+        <div id="grid"
+            style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px">
+        </div>
+    </main>
+
+    <div id="payModal"
+        style="display:none;position:fixed;inset:0;align-items:center;justify-content:center;background:rgba(0,0,0,0.5)">
+        <div style="background:#fff;padding:18px;border-radius:8px;min-width:300px">
+            <h3>Pay KSh 100 (simulated)</h3>
+            <p>This is a demo payment.</p>
+            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px"><button
+                    id="cancelPay">Cancel</button><button id="confirmPay">Pay</button></div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container">© <span id="year"></span> Students Rentals</div>
+    </footer>
+    <script>
+        const propsKey = 'sr_properties_v2';
+        const paidKey = 'sr_paid_v2';
+        function isPaid() { return localStorage.getItem(paidKey) === 'true' }
+        function setPaid() { localStorage.setItem(paidKey, 'true'); }
+        function loadProps() { try { return JSON.parse(localStorage.getItem(propsKey)) || []; } catch (e) { return [] } }
+        function saveProps(list) { localStorage.setItem(propsKey, JSON.stringify(list)); }
+
+        const paidNotice = document.getElementById('paidNotice');
+        const grid = document.getElementById('grid');
+        const payModal = document.getElementById('payModal');
+        const cancelPay = document.getElementById('cancelPay');
+        const confirmPay = document.getElementById('confirmPay');
+
+        function render() {
+            const list = loadProps();
+            grid.innerHTML = '';
+            const userRaw = localStorage.getItem('sr_user');
+            const user = userRaw ? JSON.parse(userRaw) : null;
+
+            const demoImages = ['../images.jpg', '../images (1).jpg', '../images3.jpg'];
+            list.forEach((p, idx) => {
+                const card = document.createElement('div');
+                card.style.background = '#fff'; card.style.padding = '12px'; card.style.borderRadius = '8px';
+                // image
+                const img = document.createElement('img');
+                img.src = demoImages[idx % demoImages.length];
+                img.alt = p.title;
+                img.style.width = '100%'; img.style.borderRadius = '8px'; img.style.display = 'block'; img.style.marginBottom = '8px';
+
+                const h3 = document.createElement('h3'); h3.textContent = p.title;
+                const info = document.createElement('p'); info.textContent = p.room + ' • KSh ' + p.price;
+                const utils = document.createElement('p'); utils.textContent = 'Water: ' + (p.water ? 'Yes' : 'No') + ' • Electricity: ' + (p.electricity ? 'Yes' : 'No');
+                const avail = document.createElement('button'); avail.textContent = p.available ? 'Available' : 'Not available'; avail.style.padding = '8px'; avail.style.border = 'none'; avail.style.borderRadius = '6px'; avail.style.color = '#fff'; avail.style.background = p.available ? '#2a9d8f' : '#ff6b6b';
+                if (user && user.role === 'landlord') {
+                    avail.addEventListener('click', () => { p.available = !p.available; saveProps(list); render(); });
+                } else { avail.disabled = true; }
+                card.appendChild(img);
+                card.appendChild(h3); card.appendChild(info); card.appendChild(utils); card.appendChild(avail); grid.appendChild(card);
+            });
+        }
+
+        // Payment modal handlers
+        cancelPay && cancelPay.addEventListener('click', () => { payModal.style.display = 'none'; });
+        confirmPay && confirmPay.addEventListener('click', () => { setPaid(); payModal.style.display = 'none'; paidNotice.style.display = 'none'; render(); alert('Payment simulated: access granted'); });
+
+        window.addEventListener('load', () => {
+            if (!isPaid()) { payModal.style.display = 'flex'; } else { paidNotice.style.display = 'none'; render(); }
+        });
+    </script>
+</body>
+
+</html>

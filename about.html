@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>About Us - Students Rentals</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="auth.js"></script>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="brand">Students Rentals</div>
+            <nav class="nav"><a href="index.html">Home</a><a href="properties.html">Properties</a><a
+                    href="secondhand.html">Second Hand Items</a><a href="about.html" class="active">About Us</a><a
+                    href="contacts.html">Contacts</a></nav>
+        </div>
+    </header>
+    <main class="container" style="padding:20px">
+        <h1>About Us</h1>
+        <p>We help students find affordable housing and buy andsell items.</p>
+    </main>
+    <footer class="site-footer">
+        <div class="container">© <span id="year"></span> Students</div>
+    </footer>
+    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+
+</html>

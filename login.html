@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Login - Students Rentals</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="brand">Students Rentals</div>
+            <nav class="nav"><a href="index.html">Home</a><a href="properties.html">Properties</a><a
+                    href="secondhand.html">Second Hand Items</a><a href="about.html">About Us</a><a
+                    href="contacts.html">Contacts</a></nav>
+        </div>
+    </header>
+    <main class="container" style="padding:20px;display:flex;align-items:center;justify-content:center;min-height:60vh">
+        <form id="loginForm" style="background:#fff;padding:18px;border-radius:10px;min-width:320px">
+            <h2>Login</h2>
+            <label>Username<input name="username" required
+                    style="width:100%;padding:8px;margin-top:6px;border-radius:6px;border:1px solid #e6eef6"></label>
+            <label style="display:block;margin-top:8px">Role<select name="role" id="role"
+                    style="width:100%;padding:8px;margin-top:6px;border-radius:6px;border:1px solid #e6eef6">
+                    <option value="student">Student</option>
+                    <option value="landlord">Landlord</option>
+                </select></label>
+            <label style="display:block;margin-top:8px">Password<input name="password" type="password" required
+                    style="width:100%;padding:8px;margin-top:6px;border-radius:6px;border:1px solid #e6eef6"></label>
+            <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end"><button type="submit"
+                    class="btn">Login</button></div>
+        </form>
+    </main>
+    <footer class="site-footer">
+        <div class="container">© <span id="year"></span> Students Rentals</div>
+    </footer>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+        const form = document.getElementById('loginForm');
+        function getNextRedirect() {
+            try { const params = new URLSearchParams(location.search); return params.get('next') || 'index.html'; } catch (e) { return 'index.html'; }
+        }
+        form && form.addEventListener('submit', e => {
+            e.preventDefault();
+            const fd = new FormData(form);
+            const u = (fd.get('username') || '').trim();
+            const r = fd.get('role');
+            const p = fd.get('password') || fd.get('pw') || '';
+            // validate against accounts
+            try {
+                const accs = JSON.parse(localStorage.getItem('sr_accounts') || '[]');
+                const match = accs.find(a => a.username === u && a.password === p && a.role === r);
+                if (!match) {
+                    alert('Invalid credentials. If you do not have an account, please register first.');
+                    return;
+                }
+                localStorage.setItem('sr_user', JSON.stringify({ username: u, role: r }));
+                alert('Logged in as ' + u + ' (' + r + ')');
+                window.location.href = getNextRedirect();
+            } catch (e) { console.error(e); alert('Login error'); }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Second Hand Items - Students Rentals</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="auth.js"></script>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="brand">Students Rentals</div>
+            <nav class="nav"><a href="index.html">Home</a><a href="properties.html">Properties</a><a
+                    href="secondhand.html" class="active">Second Hand Items</a><a href="about.html">About Us</a><a
+                    href="contacts.html">Contacts</a></nav>
+        </div>
+    </header>
+    <main class="container" style="padding:20px">
+        <h1>Get Second Hand Items</h1>
+        <p>Find and post new and used items for students: furniture, books, appliances.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:12px">
+            <div style="background:#ece4e4;padding:12px;border-radius:10px">Item 1</div>
+            <div style="background:#ece4e4;padding:12px;border-radius:8px">Item 2</div>
+            <div style="background:#ece4e4;padding:12px;border-radius:8px">Item 3</div>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <div class="container">© <span id="year"></span> Items</div>
+    </footer>
+    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+
+</html>
