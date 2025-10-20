@@ -13,28 +13,26 @@
         localStorage.setItem(propsKey, JSON.stringify(list));
     }
 })();
+
 // mobile nav toggle shared across pages (robust)
 (function () {
     document.addEventListener('DOMContentLoaded', function () {
         const toggles = Array.from(document.querySelectorAll('.nav-toggle'));
         if (!toggles.length) return;
 
-        // wire each toggle to the nav inside the same header
         toggles.forEach(btn => {
             const header = btn.closest('.site-header') || document;
             const nav = header.querySelector('#mainNav') || header.querySelector('.nav');
             if (!nav) return;
             btn.setAttribute('aria-expanded', 'false');
-            btn.addEventListener('click', e => {
+            btn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const isOpen = nav.classList.toggle('open');
                 btn.setAttribute('aria-expanded', isOpen);
             });
-            // close when a link inside the same nav is clicked
             nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { nav.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }));
         });
 
-        // close any open nav when clicking outside
         document.addEventListener('click', (e) => {
             toggles.forEach(btn => {
                 const header = btn.closest('.site-header') || document;
@@ -44,7 +42,6 @@
             });
         });
 
-        // close on escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 toggles.forEach(btn => {
@@ -56,3 +53,4 @@
         });
     });
 })();
+
