@@ -22,8 +22,32 @@
 
     <main class="container" style="padding:20px">
         <h1>Available Rentals</h1>
+        <form id="filterForm" style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px;align-items:center">
+            <label>Type:
+                <select id="typeFilter" style="padding:6px;border-radius:6px">
+                    <option value="">All</option>
+                    <option value="Single">Single</option>
+                    <option value="Bedseater">Bedseater</option>
+                    <option value="1BR">1Bed Room</option>
+                    <option value="1BR">2Bed Room</option>
+                    <option value="1BR">3Bed Room</option>
+
+
+                </select>
+            </label>
+            <label>Price:
+                <select id="priceFilter" style="padding:6px;border-radius:6px">
+                    <option value="">Any</option>
+                    <option value="0-3000">Up to 3,000</option>
+                    <option value="3001-5000">3,001 - 5,000</option>
+                    <option value="5001-10000">5,001 - 10,000</option>
+                </select>
+            </label>
+            <button type="submit"
+                style="padding:8px 16px;border-radius:6px;background:#f60b8c;color:#fff;border:none">Filter</button>
+        </form>
         <div id="paidNotice" style="background:#fff3c4;padding:10px;border-radius:6px;max-width:600px">Students must pay
-            KSh 100 to view listings.</div>
+            KSh 20 to view listings.</div>
         <div id="grid"
             style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px">
         </div>
@@ -57,16 +81,27 @@
         const confirmPay = document.getElementById('confirmPay');
 
         function render() {
-            const list = loadProps();
+            let list = loadProps();
+            // filter logic
+            const type = document.getElementById('typeFilter')?.value || '';
+            const price = document.getElementById('priceFilter')?.value || '';
+            if (type) {
+                list = list.filter(p => (p.room || '').toLowerCase().includes(type.toLowerCase()));
+            }
+            if (price) {
+                const [min, max] = price.split('-').map(Number);
+                list = list.filter(p => p.price >= min && p.price <= max);
+            }
             grid.innerHTML = '';
             const userRaw = localStorage.getItem('sr_user');
             const user = userRaw ? JSON.parse(userRaw) : null;
 
-            const demoImages = ['images.jpg', 'images (1).jpg', 'images3.jpg'];
+            const demoImages = ['images.jpg', 'images (1).jpg', 'images3.jpg', 'image4.jpg'];
             list.forEach((p, idx) => {
                 const card = document.createElement('div');
                 card.style.background = '#fff'; card.style.padding = '12px'; card.style.borderRadius = '8px';
                 // image
+                const demoImages = ['images.jpg', 'images (1).jpg', 'images3.jpg'];
                 const img = document.createElement('img');
                 img.src = demoImages[idx % demoImages.length];
                 img.alt = p.title;
@@ -82,7 +117,57 @@
                 card.appendChild(img);
                 card.appendChild(h3); card.appendChild(info); card.appendChild(utils); card.appendChild(avail); grid.appendChild(card);
             });
+
+            // Add independent card for image4.jpg
+            const card4 = document.createElement('div');
+            card4.style.background = '#fff'; card4.style.padding = '12px'; card4.style.borderRadius = '8px';
+            const img4 = document.createElement('img');
+            img4.src = 'image4.jpg';
+            img4.alt = 'More Rooms';
+            img4.style.width = '100%'; img4.style.borderRadius = '8px'; img4.style.display = 'block'; img4.style.marginBottom = '8px';
+            const h34 = document.createElement('h3'); h34.textContent = 'More Rooms';
+            const info4 = document.createElement('p'); info4.textContent = '3BR Apartment • KSh 8,000';
+            const utils4 = document.createElement('p'); utils4.textContent = 'Water: Yes • Electricity: Yes';
+            const avail4 = document.createElement('button'); avail4.textContent = 'Available'; avail4.style.padding = '8px'; avail4.style.border = 'none'; avail4.style.borderRadius = '6px'; avail4.style.color = '#fff'; avail4.style.background = '#2a9d8f'; avail4.disabled = true;
+            card4.appendChild(img4);
+            card4.appendChild(h34); card4.appendChild(info4); card4.appendChild(utils4); card4.appendChild(avail4);
+            grid.appendChild(card4);
+
+
+            // Add independent card for image5.jpg immediately after image4.jpg
+            const card5 = document.createElement('div');
+            card5.style.background = '#fff'; card5.style.padding = '12px'; card5.style.borderRadius = '8px';
+            const img5 = document.createElement('img');
+            img5.src = 'image5.jpg';
+            img5.alt = 'Extra Room';
+            img5.style.width = '100%'; img5.style.borderRadius = '8px'; img5.style.display = 'block'; img5.style.marginBottom = '8px';
+            const h35 = document.createElement('h3'); h35.textContent = 'Extra Room';
+            const info5 = document.createElement('p'); info5.textContent = '2BR Apartment • KSh 6,500';
+            const utils5 = document.createElement('p'); utils5.textContent = 'Water: Yes • Electricity: Yes';
+            const avail5 = document.createElement('button'); avail5.textContent = 'Available'; avail5.style.padding = '8px'; avail5.style.border = 'none'; avail5.style.borderRadius = '6px'; avail5.style.color = '#fff'; avail5.style.background = '#2a9d8f'; avail5.disabled = true;
+            card5.appendChild(img5);
+            card5.appendChild(h35); card5.appendChild(info5); card5.appendChild(utils5); card5.appendChild(avail5);
+            grid.appendChild(card5);
+
+            const card6 = document.createElement('div');
+            card6.style.background = '#fff'; card6.style.padding = '12px'; card6.style.borderRadius = '8px';
+            const image6 = document.createElement('img');
+            image6.src = 'image6.jpg';
+            image6.alt = 'Extra Room';
+            image6.style.width = '100%'; image6.style.borderRadius = '8px'; image6.style.display = 'block'; image6.style.marginBottom = '8px';
+            const h36 = document.createElement('h3'); h35.textContent = 'Extra Room';
+            const info6 = document.createElement('p'); info5.textContent = '2BR Apartment • KSh 6,500';
+            const utils6 = document.createElement('p'); utils6.textContent = 'Water: Yes • Electricity: Yes';
+            const avail6 = document.createElement('button'); avail6.textContent = 'Available'; avail6.style.padding = '8px'; avail6.style.border = 'none'; avail6.style.borderRadius = '6px'; avail6.style.color = '#fff'; avail6.style.background = '#2a9d8f'; avail6.disabled = true;
+            card6.appendChild(image6);
+            card6.appendChild(h36); card6.appendChild(info6); card6.appendChild(utils6); card6.appendChild(avail6);
+            grid.appendChild(card6);
+
+
+
         }
+
+
 
         // Payment modal handlers
         cancelPay && cancelPay.addEventListener('click', () => { payModal.style.display = 'none'; });
@@ -91,6 +176,14 @@
         window.addEventListener('load', () => {
             if (!isPaid()) { payModal.style.display = 'flex'; } else { paidNotice.style.display = 'none'; render(); }
         });
+
+        // filter form handler
+        document.getElementById('filterForm')?.addEventListener('submit', function (e) {
+            e.preventDefault();
+            render();
+        });
+        document.getElementById('typeFilter')?.addEventListener('change', render);
+        document.getElementById('priceFilter')?.addEventListener('change', render);
     </script>
 </body>
 
