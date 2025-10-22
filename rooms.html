@@ -46,39 +46,23 @@
             <button type="submit"
                 style="padding:8px 16px;border-radius:6px;background:#f60b8c;color:#fff;border:none">Filter</button>
         </form>
-        <div id="paidNotice" style="background:#fff3c4;padding:10px;border-radius:6px;max-width:600px">Students must pay
-            KSh 20 to view listings.</div>
+        <!-- payment prompt removed -->
         <div id="grid"
             style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px">
         </div>
     </main>
 
-    <div id="payModal"
-        style="display:none;position:fixed;inset:0;align-items:center;justify-content:center;background:rgba(0,0,0,0.5)">
-        <div style="background:#fff;padding:18px;border-radius:8px;min-width:300px">
-            <h3>Pay KSh 100 (simulated)</h3>
-            <p>This is a demo payment.</p>
-            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px"><button
-                    id="cancelPay">Cancel</button><button id="confirmPay">Pay</button></div>
-        </div>
-    </div>
+    <!-- payment modal removed -->
 
     <footer class="site-footer">
         <div class="container">© <span id="year"></span> Students Rentals</div>
     </footer>
     <script>
         const propsKey = 'sr_properties_v2';
-        const paidKey = 'sr_paid_v2';
-        function isPaid() { return localStorage.getItem(paidKey) === 'true' }
-        function setPaid() { localStorage.setItem(paidKey, 'true'); }
         function loadProps() { try { return JSON.parse(localStorage.getItem(propsKey)) || []; } catch (e) { return [] } }
         function saveProps(list) { localStorage.setItem(propsKey, JSON.stringify(list)); }
 
-        const paidNotice = document.getElementById('paidNotice');
         const grid = document.getElementById('grid');
-        const payModal = document.getElementById('payModal');
-        const cancelPay = document.getElementById('cancelPay');
-        const confirmPay = document.getElementById('confirmPay');
 
         function render() {
             let list = loadProps();
@@ -209,13 +193,8 @@
 
 
 
-        // Payment modal handlers
-        cancelPay && cancelPay.addEventListener('click', () => { payModal.style.displayse = 'none'; });
-        confirmPay && confirmPay.addEventListener('click', () => { setPaid(); payModal.style.display = 'none'; paidNotice.style.display = 'none'; render(); alert('Payment simulated: access granted'); });
-
-        window.addEventListener('load', () => {
-            if (!isPaid()) { payModal.style.display = 'flex'; } else { paidNotice.style.display = 'none'; render(); }
-        });
+        // Render on load (payment prompt removed)
+        window.addEventListener('load', () => { render(); });
 
         // filter form handler
         document.getElementById('filterForm')?.addEventListener('submit', function (e) {
